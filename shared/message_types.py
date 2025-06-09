@@ -1,6 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 from datetime import datetime
+import uuid
 
 @dataclass
 class WorkflowRequest:
@@ -41,3 +42,12 @@ class MetricReport:
     timestamp: datetime
     metrics: Dict[str, float]
     tags: Dict[str, str] = None
+
+@dataclass
+class CriticalErrorEvent:
+    timestamp: str
+    service_name: str
+    error_message: str
+    event_id: str = field(default_factory=lambda: uuid.uuid4().hex)
+    stack_trace: Optional[str] = None
+    severity: str = "ERROR"

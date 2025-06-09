@@ -1,0 +1,4 @@
+nats-py>=2.0.0 # Ensure a version that supports JetStream well
+# Flask could be used for a more robust HTTP server, but http.server is standard lib
+# If using Flask:
+# Flask>=2.0.0

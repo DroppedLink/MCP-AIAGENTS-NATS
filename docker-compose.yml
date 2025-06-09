@@ -100,6 +100,23 @@ services:
     networks:
       - ai-network
 
+  error-aggregator:
+    build:
+      context: . # Assuming shared is at the same level as error-aggregator
+      dockerfile: ./error-aggregator/Dockerfile
+    container_name: error-aggregator
+    ports:
+      - "8081:8081" # Expose the HTTP port
+    environment:
+      - NATS_URL=nats://nats:4222
+      - MAX_ERRORS_STORED=200 # Example: store 200 errors
+      - HTTP_PORT=8081 # Ensure this matches the EXPOSE in Dockerfile and app
+      - PYTHONUNBUFFERED=1 # Good for seeing logs immediately
+    networks:
+      - ai-network
+    depends_on:
+      - nats # Ensures NATS is up before this service starts
+
 networks:
   ai-network:
     driver: bridge
